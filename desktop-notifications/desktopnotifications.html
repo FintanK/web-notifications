@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Desktop Notifications Reference</title>
+</head>
+
+<script>
+    // request permission on page load
+    document.addEventListener('DOMContentLoaded', function () {
+        if (Notification.permission !== "granted")
+            Notification.requestPermission();
+    });
+
+
+    function createDesktopNotification() {
+        var notification = new Notification('Your custom notification', {
+            icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/120px-HTML5_logo_and_wordmark.svg.png',
+            body: "Hello! HTML5 is awesome!!",
+            sound: "./sounds-937-job-done.mp3"
+        });
+
+        notification.onclick = function () {
+            window.open("https://www.w3.org/TR/notifications/");
+        };
+
+        notification.onclose = function(event) {
+            // If you wish to perform logic when a notification is closed apply your code here.
+        };
+    }
+
+    function desktopNotification () {
+        if (!Notification) {
+            alert('Desktop notifications are not available in your browser. Try Chromium.');
+            return;
+        }
+
+        if (Notification.permission !== "granted") {
+            Notification.requestPermission();
+        } else {
+            setTimeout( createDesktopNotification, document.getElementById("secondsValue").value * 1000 );
+        }
+
+    }
+</script>
+
+<body>
+
+<h2>Desktop Notifications (Notifications API)</h2>
+<span>
+    Delay notification for <input id="secondsValue" type="number" value="0"> seconds
+</span>
+<button onclick="desktopNotification()">
+    Request Notification!
+</button>
+<p><strong>Tip:</strong>Try setting a delay and then closing the browser window. You will still receive a notification on your desktop.</p>
+
+</body>
+</html>
